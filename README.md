@@ -44,16 +44,16 @@ This will drop all tables. You can then redo the creation and the seeding accord
 
 ### Step 3: Make some queries
 
-Now you can querying the API :partying_face:
+Now you can query the API :partying_face:
 
-You could start by checking all the restaurants located in a city:
+You could start by checking all the restaurants located in a city:  
 **GET** `localhost:3000/city/4`  
 
 ![pic](readme/oneCity.png)
 
 or 
 
-You could get all the restaurants with their associated data (comments/tags/city) as such:
+You could get all the restaurants with their associated data (comments/tags/city) as such:  
 **GET** `localhost:3000/restaurant`  
 
 ![pic](readme/allRestaurants.png)
@@ -69,9 +69,11 @@ You can control if you want to retrieve all the associated information for the r
 
 or  
 
-You could search for all restaurants linked to a tag by sending the id of that tag:
+You could search for all restaurants linked to a tag by sending the id of that tag:  
 **GET** `http://localhost:3000/tag/7`  
 
 ![pic](readme/oneTag.png)
 
-This is not an exhaustive list. You're encouraged to check the controllers folder and check what you can do with the API!
+This is not an exhaustive list.  
+
+You're encouraged to check the controllers folder and check what you can do with the API! :nerd_face:
