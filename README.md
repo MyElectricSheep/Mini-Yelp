@@ -6,12 +6,15 @@ Clone this repo `mini-yelp` on your computer, then go into the folder with your 
 npm install
 ```
 
-### Step 1: Initialize the project
+## Step 1: Initialize the project
 
-Create a database hosted on [Elephant SQL](https://www.elephantsql.com/)
-Create a `.env` file at the root of the project
+### 1/ Use a local database:  
 
-Put the database credentials provided by ElephantSQL into your .env file as such:
+Create a [locally hosted postgres database](https://www.postgresqltutorial.com/postgresql-create-database/)  
+
+Create a `.env` file at the root of the project  
+
+Put the database credentials into your .env file as such:  
 ```
 PGHOST=<Your database host>
 PGUSER=<Your database user>
@@ -20,14 +23,27 @@ PGPASSWORD=<Your database password>
 PGPORT=5432
 ```
 
-### Step 2: Create and seed the database
+If you choose this option, run `npm run startDev` and try to hit `http://localhost:3000/`  
 
-Before you can execute any commands; you need to initialize and seed some fake data into the database.
+You should get `Welcome to Mini-Yelp!` as a reply.
+
+### 2/ Provision a database on Heroku:  
+
+Deploy the project on Heroku followig this [documentation](https://devcenter.heroku.com/articles/deploying-nodejs)
+
+Create a database hosted on [Heroku Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#provisioning-heroku-postgres) and link it to your project.  
+
+Make sure the `DATABASE_URL` env variable is defined and that the DB connection string is passed on to the app.
+
+## Step 2: Create and seed the database
+
+Before you can execute any commands on the API; you need to initialize and seed some fake data into the database.
 
 Fortunately, there's a `/seed` route for this!
 
-_For this workshop we need a software called [Postman](https://www.postman.com/downloads/) or [Insomnia](https://insomnia.rest/), it will allow us to test our endpoints._
-So fire up Postman (or Insomnia) and execute the following requests:
+_To test our API, we need a software called [Postman](https://www.postman.com/downloads/) or [Insomnia](https://insomnia.rest/), it will allow us to fire some queries on our endpoints._  
+
+So launch Postman (or Insomnia) and execute the following requests:
 
 **POST** `localhost:3000/seed/create`  
 then  
@@ -42,7 +58,7 @@ This will drop all tables. You can then redo the creation and the seeding accord
 
 ![pic](readme/seed.png)
 
-### Step 3: Make some queries
+## Step 3: Make some queries
 
 Now you can query the API :partying_face:
 
