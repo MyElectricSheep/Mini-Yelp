@@ -1,9 +1,18 @@
 const { Pool } = require('pg')
-const connectionString = process.env.DATABASE_URL
 
-const pool = new Pool({
-    connectionString
-})
+let pool
+
+if (process.env.NODE_ENV === 'production') {
+    const connectionString = process.env.DATABASE_URL
+
+    pool = new Pool({
+        connectionString
+    })
+} else {
+    pool = new Pool()
+}
+
+
 
 module.exports = {
   query: (text, params, callback) => {

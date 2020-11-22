@@ -22,4 +22,8 @@ app.use('/city', cityRouter);
 app.use('/tag', tagRouter);
 app.use('/restaurant', restaurantRouter);
 
+app.get('/', (req, res) => {
+    res.send('Welcome to Mini-Yelp!')
+})
+
 module.exports = app;
