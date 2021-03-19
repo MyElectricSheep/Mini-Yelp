@@ -8,7 +8,7 @@ npm install
 
 ## Step 1: Initialize the project
 
-### 1/ Use a local database:  
+### 1/ For the local environment: Use a local database:  
 
 Create a [locally hosted postgres database](https://www.postgresqltutorial.com/postgresql-create-database/)  
 
@@ -27,13 +27,15 @@ If you choose this option, run `npm run startDev` and try to hit `http://localho
 
 You should get `Welcome to Mini-Yelp!` as a reply.
 
-### 2/ Provision a database on Heroku:  
+### 2/ For the production environment: Provision a database on Heroku:  
 
 Deploy the project on Heroku followig this [documentation](https://devcenter.heroku.com/articles/deploying-nodejs)
 
 Create a database hosted on [Heroku Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#provisioning-heroku-postgres) and link it to your project.  
 
 Make sure the `DATABASE_URL` env variable is defined and that the DB connection string is passed on to the app.
+
+(Note: You can also use ElephantSQL, but it comes with some limitations for the seeding)
 
 ## Step 2: Create and seed the database
 
@@ -93,5 +95,3 @@ You could search for all restaurants linked to a tag by sending the id of that t
 This is not an exhaustive list.  
 
 You're encouraged to check the controllers folder and check what you can do with the API! :nerd_face:
-
-This API is [deployed here on Heroku](https://wbs-mini-yelp.herokuapp.com/) for testing purposes
