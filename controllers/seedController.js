@@ -1,4 +1,4 @@
-const db = require("../dabatase/client");
+const db = require("../database/client");
 
 module.exports.create = async (req, res, next) => {
   const query = `
