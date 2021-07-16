@@ -1,4 +1,4 @@
-const db = require("../dabatase/client");
+const db = require("../database/client");
 
 module.exports.create = async (req, res) => {
   const { name } = req.body;
@@ -75,7 +75,7 @@ module.exports.readAll = async (req, res) => {
       const { id } = tag;
       return {
         ...tag,
-        restaurants: await tagsRestaurant(id)
+        restaurants: await tagsRestaurant(id),
       };
     });
 

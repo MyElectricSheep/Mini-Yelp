@@ -1,4 +1,4 @@
-const db = require("../dabatase/client");
+const db = require("../database/client");
 
 const checkResource = async (req, res, next) => {
   try {

@@ -1,4 +1,4 @@
-const db = require("../dabatase/client");
+const db = require("../database/client");
 
 const create = async (req, res, next) => {
   const { name } = req.body;

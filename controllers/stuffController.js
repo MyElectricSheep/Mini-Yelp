@@ -1,4 +1,4 @@
-const db = require("../dabatase/client");
+const db = require("../database/client");
 
 module.exports.seedPart1 = async (req, res, next) => {
   //Questions query
@@ -37,6 +37,6 @@ module.exports.seedPart1 = async (req, res, next) => {
 
   res.send({
     questionRows,
-    scientistsRows
-  })
+    scientistsRows,
+  });
 };
