@@ -1,4 +1,11 @@
 const db = require("../database/client");
+const {
+  getOneWithRestaurantsQuery,
+  getAllQuery,
+  getAllWithRestaurantsQuery,
+  updateOneQuery,
+  deleteOneQuery,
+} = require("../queries/cityQueries");
 
 const create = async (req, res, next) => {
   const { name } = req.body;
@@ -57,38 +64,8 @@ const readOneWithRestaurants = async (req, res, next) => {
   // }
 
   // Option 2: one single query aggregating restaurants data into objects:
-  const cityQuery = {
-    text: `
-    SELECT 
-      c.id,
-      c.name,
-      CASE
-      WHEN MAX(r.id) IS NOT NULL THEN
-        ARRAY_TO_JSON(
-          ARRAY_AGG(
-            JSON_STRIP_NULLS(
-              JSON_BUILD_OBJECT(
-                'id', r.id,
-                'name', r.name,
-                'picture', r.picture
-              )
-            )
-          )
-        )
-      ELSE
-       '[]'::json
-    END as restaurants
-    FROM city c
-      LEFT JOIN restaurant r
-      ON r.city_id = c.id
-    WHERE c.id=$1
-    GROUP BY c.id, c.name
-    `,
-    values: [id],
-  };
-
   try {
-    const { rows: cityRows } = await db.query(cityQuery);
+    const { rows: cityRows } = await db.query(getOneWithRestaurantsQuery(id));
     res.json(cityRows);
   } catch (e) {
     next(e);
@@ -97,7 +74,7 @@ const readOneWithRestaurants = async (req, res, next) => {
 
 const readAll = async (req, res, next) => {
   try {
-    const { rows: cityRows } = await db.query("SELECT * FROM city");
+    const { rows: cityRows } = await db.query(getAllQuery());
     res.json(cityRows);
   } catch (e) {
     next(e);
@@ -106,24 +83,8 @@ const readAll = async (req, res, next) => {
 
 const readAllWithRestaurants = async (req, res, next) => {
   try {
-    const citiesQueryWithRestaurants = `
-  SELECT 
-    c.id,
-    c.name,
-    ARRAY_AGG(
-      JSON_BUILD_OBJECT(
-        'id', r.id,
-        'name', r.name,
-        'picture', r.picture
-        )
-      ) AS restaurants
-  FROM city c
-    JOIN restaurant r
-    ON r.city_id = c.id
-  GROUP BY c.id, c.name
-  `;
     const { rows: cityRowsWithRestaurants } = await db.query(
-      citiesQueryWithRestaurants
+      getAllWithRestaurantsQuery()
     );
     res.json(cityRowsWithRestaurants);
   } catch (e) {
@@ -139,10 +100,7 @@ const update = async (req, res, next) => {
       .status(400)
       .send("Please provide necessary id and name to update a city");
   try {
-    const { rows: cityRows } = await db.query(
-      "UPDATE city SET name=$1 WHERE id=$2 RETURNING *",
-      [name, id]
-    );
+    const { rows: cityRows } = await db.query(updateOneQuery(name, id));
     res.send(cityRows);
   } catch (e) {
     next(e);
@@ -152,10 +110,7 @@ const update = async (req, res, next) => {
 const deleteOne = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const { rows: cityRows } = await db.query(
-      "DELETE FROM city WHERE id=$1 RETURNING *",
-      [id]
-    );
+    const { rows: cityRows } = await db.query(deleteOneQuery(id));
     res.send(cityRows);
   } catch (e) {
     next(e);
