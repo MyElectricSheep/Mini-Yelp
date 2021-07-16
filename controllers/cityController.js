@@ -62,15 +62,24 @@ const readOneWithRestaurants = async (req, res, next) => {
     SELECT 
       c.id,
       c.name,
-      ARRAY_AGG(
-        JSON_BUILD_OBJECT(
-          'id', r.id,
-          'name', r.name,
-          'picture', r.picture
+      CASE
+      WHEN MAX(r.id) IS NOT NULL THEN
+        ARRAY_TO_JSON(
+          ARRAY_AGG(
+            JSON_STRIP_NULLS(
+              JSON_BUILD_OBJECT(
+                'id', r.id,
+                'name', r.name,
+                'picture', r.picture
+              )
+            )
           )
-        ) AS restaurants
+        )
+      ELSE
+       '[]'::json
+    END as restaurants
     FROM city c
-      JOIN restaurant r
+      LEFT JOIN restaurant r
       ON r.city_id = c.id
     WHERE c.id=$1
     GROUP BY c.id, c.name

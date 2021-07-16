@@ -1,6 +1,7 @@
 const db = require("../dabatase/client");
+const { oneWithCommentsAndTags } = require("../queries/restaurantQueries");
 
-module.exports.create = async (req, res) => {
+const create = async (req, res) => {
   const { name, picture, city_id } = req.body;
 
   if (!name || !picture || !city_id)
@@ -39,28 +40,26 @@ module.exports.create = async (req, res) => {
 
 const readRestaurant = async (id) => {
   const restaurantQuery = `
-    SELECT r.id AS restaurant_id, r.name AS restaurant_name, r.picture, ct.name AS city_name, ct.id AS city_id
-    FROM restaurant r 
-    JOIN city ct ON ct.id = r.city_id
-    WHERE r.id=$1
-    `;
+      SELECT r.id AS restaurant_id, r.name AS restaurant_name, r.picture, ct.name AS city_name, ct.id AS city_id
+      FROM restaurant r
+      JOIN city ct ON ct.id = r.city_id
+      WHERE r.id=$1
+      `;
   try {
     const { rows: restaurantRows } = await db.query(restaurantQuery, [id]);
-    console.log(restaurantRows)
-    if (!restaurantRows.length) return "No such restaurant";
     return restaurantRows;
   } catch (e) {
-    console.log({ readRestaurantError: e.message });
+    next(e);
   }
 };
 
 const readComments = async (id) => {
   const commentsQuery = `
-    SELECT cm.id, cm.comment
-    FROM comment cm
-    JOIN restaurant r ON r.id = cm.restaurant_id
-    WHERE r.id=$1
-    `;
+      SELECT cm.id, cm.comment
+      FROM comment cm
+      JOIN restaurant r ON r.id = cm.restaurant_id
+      WHERE r.id=$1
+      `;
   try {
     const { rows: commentRows } = await db.query(commentsQuery, [id]);
     return commentRows;
@@ -71,12 +70,12 @@ const readComments = async (id) => {
 
 const readTags = async (id) => {
   const tagsQuery = `
-    SELECT t.id, t.name
-    FROM tag t
-    JOIN restaurant_has_tag rht ON t.id = rht.tag_id
-    JOIN restaurant r ON rht.restaurant_id = r.id 
-    WHERE r.id=$1
-    `;
+      SELECT t.id, t.name
+      FROM tag t
+      JOIN restaurant_has_tag rht ON t.id = rht.tag_id
+      JOIN restaurant r ON rht.restaurant_id = r.id
+      WHERE r.id=$1
+      `;
   try {
     const { rows: tagRows } = await db.query(tagsQuery, [id]);
     return tagRows;
@@ -85,19 +84,32 @@ const readTags = async (id) => {
   }
 };
 
-module.exports.readOne = async (req, res) => {
+// Solution 2: split the queries (less efficient, but more control)
+// const readOne = async (req, res) => {
+//   const { id } = req.params;
+
+//   const restaurantData = await readRestaurant(id);
+
+//   res.send({
+//     ...restaurantData["0"],
+//     comments: await readComments(id),
+//     tags: await readTags(id),
+//   });
+
+const readOne = async (req, res, next) => {
   const { id } = req.params;
-
-  const restaurantData = await readRestaurant(id);
-
-  res.send({
-    ...restaurantData["0"],
-    comments: await readComments(id),
-    tags: await readTags(id),
-  });
+  // Solution 1: single SQL query (more efficient, more complex)
+  try {
+    const { rows: oneRestaurantRows } = await db.query(
+      oneWithCommentsAndTags(id)
+    );
+    res.json(oneRestaurantRows);
+  } catch (e) {
+    next(e);
+  }
 };
 
-module.exports.readAll = async (req, res) => {
+const readAll = async (req, res) => {
   const { limit = 10, offset = 0, comments = true, tags = true } = req.body;
 
   try {
@@ -126,14 +138,25 @@ module.exports.readAll = async (req, res) => {
   }
 };
 
-module.exports.update = async (req, res) => {
+const update = async (req, res) => {
   // To do - Not required in the exercise
   const { id } = req.params;
   res.send("This endpoint will update a specific restaurant", id);
 };
 
-module.exports.delete = async (req, res) => {
+const deleteOne = async (req, res) => {
   // To do - Not required in the exercise
   const { id } = req.params;
   res.send("This endpoint will delete a specific restaurant", id);
+};
+
+module.exports = {
+  create,
+  readRestaurant,
+  readComments,
+  readTags,
+  readOne,
+  readAll,
+  update,
+  deleteOne,
 };

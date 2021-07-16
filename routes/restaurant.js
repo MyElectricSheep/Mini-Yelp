@@ -1,11 +1,21 @@
-const express = require('express');
+const express = require("express");
 const restaurantRouter = express.Router();
-const restaurantController = require('../controllers/restaurantController')
+const {
+  readOne,
+  readAll,
+  create,
+  update,
+  deleteOne,
+} = require("../controllers/restaurantController");
+const checkResource = require("../middlewares/checkResource");
 
-restaurantRouter.get('/:id', restaurantController.readOne);
-restaurantRouter.get('/', restaurantController.readAll);
-restaurantRouter.post('/', restaurantController.create);
-restaurantRouter.put('/:id', restaurantController.update);
-restaurantRouter.delete('/:id', restaurantController.delete);
+restaurantRouter
+  .route("/:id")
+  .get([checkResource, readOne])
+  .put([checkResource, update])
+  .delete([checkResource, deleteOne]);
+
+restaurantRouter.get("/", readAll);
+restaurantRouter.post("/", create);
 
 module.exports = restaurantRouter;
