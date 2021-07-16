@@ -1,12 +1,26 @@
-const express = require('express');
+const express = require("express");
 const cityRouter = express.Router();
-const cityController = require('../controllers/cityController')
+const checkResource = require("../middlewares/checkResource");
 
+const {
+  readOne,
+  readOneWithRestaurants,
+  readAll,
+  readAllWithRestaurants,
+  create,
+  update,
+  deleteOne,
+} = require("../controllers/cityController");
 
-cityRouter.get('/:id', cityController.readOne);
-cityRouter.get('/', cityController.readAll);
-cityRouter.post('/', cityController.create);
-cityRouter.put('/:id', cityController.update);
-cityRouter.delete('/:id', cityController.delete);
+cityRouter.get("/:id/restaurants", [checkResource, readOneWithRestaurants]);
+cityRouter.get("/restaurants", readAllWithRestaurants);
+
+cityRouter
+  .route("/:id")
+  .get([checkResource, readOne])
+  .put([checkResource, update])
+  .delete([checkResource, deleteOne]);
+
+cityRouter.route("/").get(readAll).post(create);
 
 module.exports = cityRouter;

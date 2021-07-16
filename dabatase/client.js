@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'production') {
     const connectionString = process.env.DATABASE_URL
 
     pool = new Pool({
-        connectionString
+        connectionString: process.env.DATABASE_URL
     })
 } else {
     pool = new Pool()
