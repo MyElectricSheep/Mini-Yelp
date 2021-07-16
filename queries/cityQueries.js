@@ -12,7 +12,7 @@ const getAllWithRestaurantsQuery = () => ({
                 'id', r.id,
                 'name', r.name,
                 'picture', r.picture,
-                'geolocation', r.geolocation
+                'geolocation', JSON_BUILD_OBJECT('x', r.geolocation[0], 'y', r.geolocation[1])
               )
             )
           )
@@ -41,7 +41,7 @@ const getOneWithRestaurantsQuery = (id) => ({
                 'id', r.id,
                 'name', r.name,
                 'picture', r.picture,
-                'geolocation', r.geolocation
+                'geolocation', JSON_BUILD_OBJECT('x', r.geolocation[0], 'y', r.geolocation[1])
               )
             )
           )
