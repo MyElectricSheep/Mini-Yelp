@@ -1,9 +1,10 @@
-const oneWithCommentsAndTags = (id) => ({
+const getOneWithCommentsAndTagsQuery = (id) => ({
   text: `
     SELECT 
       r.id AS restaurant_id,
       r.name AS restaurant_name,
       r.picture,
+      r.geolocation,
       ct.name AS city_name,
       ct.id AS city_id,
       CASE
@@ -51,4 +52,13 @@ const oneWithCommentsAndTags = (id) => ({
   values: [id],
 });
 
-module.exports = { oneWithCommentsAndTags };
+const createOneQuery = (name, picture, city_id, longitude, latitude) => ({
+  text: `
+INSERT INTO restaurant (name, picture, city_id, geolocation)
+VALUES ($1, $2, $3, POINT($4, $5)) 
+RETURNING *
+`,
+  values: [name, picture, city_id, longitude, latitude],
+});
+
+module.exports = { getOneWithCommentsAndTagsQuery, createOneQuery };

@@ -1,8 +1,11 @@
 const db = require("../dabatase/client");
-const { oneWithCommentsAndTags } = require("../queries/restaurantQueries");
+const {
+  getOneWithCommentsAndTagsQuery,
+  createOneQuery,
+} = require("../queries/restaurantQueries");
 
-const create = async (req, res) => {
-  const { name, picture, city_id } = req.body;
+const create = async (req, res, next) => {
+  const { name, picture, city_id, longitude, latitude } = req.body;
 
   if (!name || !picture || !city_id)
     return res
@@ -10,31 +13,43 @@ const create = async (req, res) => {
       .send("Please provide a name, a picture and a city id");
 
   try {
-    const cityQuery = `
-    SELECT * FROM city
-    WHERE id=$1
-    `;
-
-    const { rows: cityRows } = await db.query(cityQuery, [city_id]);
-    if (!cityRows.length)
-      return res
-        .status(404)
-        .send("The restaurant need to be associated with a valid city");
-
-    const restaurantQuery = `
-    INSERT INTO restaurant (name, picture, city_id)
-    VALUES ($1, $2, $3) 
-    RETURNING *
-    `;
-
-    const { rows: restaurantRows } = await db.query(restaurantQuery, [
-      name,
-      picture,
-      city_id,
-    ]);
+    const { rows: restaurantRows } = await db.query(
+      createOneQuery(name, picture, city_id, longitude, latitude)
+    );
     res.send(restaurantRows);
   } catch (e) {
-    console.log({ createCityError: e.message });
+    next(e);
+  }
+};
+
+// Solution 1: single SQL query (more efficient, more complex)
+const readOne = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const { rows: oneRestaurantRows } = await db.query(
+      getOneWithCommentsAndTagsQuery(id)
+    );
+    res.json(oneRestaurantRows);
+  } catch (e) {
+    next(e);
+  }
+};
+
+// Solution 2: split the queries into reusable functions (less efficient, but more control)
+const readOneAlternate = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const restaurantData = await readRestaurant(id);
+
+    res.send({
+      ...restaurantData["0"],
+      comments: await readComments(id),
+      tags: await readTags(id),
+    });
+  } catch (e) {
+    next(e);
   }
 };
 
@@ -49,7 +64,8 @@ const readRestaurant = async (id) => {
     const { rows: restaurantRows } = await db.query(restaurantQuery, [id]);
     return restaurantRows;
   } catch (e) {
-    next(e);
+    // throw e;
+    console.log({ readRestaurantError: e.message });
   }
 };
 
@@ -84,32 +100,7 @@ const readTags = async (id) => {
   }
 };
 
-// Solution 2: split the queries (less efficient, but more control)
-// const readOne = async (req, res) => {
-//   const { id } = req.params;
-
-//   const restaurantData = await readRestaurant(id);
-
-//   res.send({
-//     ...restaurantData["0"],
-//     comments: await readComments(id),
-//     tags: await readTags(id),
-//   });
-
-const readOne = async (req, res, next) => {
-  const { id } = req.params;
-  // Solution 1: single SQL query (more efficient, more complex)
-  try {
-    const { rows: oneRestaurantRows } = await db.query(
-      oneWithCommentsAndTags(id)
-    );
-    res.json(oneRestaurantRows);
-  } catch (e) {
-    next(e);
-  }
-};
-
-const readAll = async (req, res) => {
+const readAll = async (req, res, next) => {
   const { limit = 10, offset = 0, comments = true, tags = true } = req.body;
 
   try {
@@ -134,7 +125,7 @@ const readAll = async (req, res) => {
       res.send(data);
     });
   } catch (e) {
-    console.log({ readAllRestaurantsError: e.message });
+    next(e);
   }
 };
 
