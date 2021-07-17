@@ -1,5 +1,7 @@
 # Mini Yelp Workshop Correction
 
+#### The [detailled endpoints documentation for this API is available here](https://documenter.getpostman.com/view/14782056/TzmCgD9r)
+
 Clone this repo `mini-yelp` on your computer, then go into the folder with your terminal and execute:
 
 ```sh
