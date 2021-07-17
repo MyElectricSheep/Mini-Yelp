@@ -1,8 +1,8 @@
-const db = require("../database/client");
+const db = require("../../database/client");
 const {
   getOneWithCommentsAndTagsQuery,
   createOneQuery,
-} = require("../queries/restaurantQueries");
+} = require("./restaurantQueries");
 
 const create = async (req, res, next) => {
   const { name, picture, city_id, longitude, latitude } = req.body;

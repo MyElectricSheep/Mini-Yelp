@@ -6,8 +6,8 @@ const {
   create,
   update,
   deleteOne,
-} = require("../controllers/restaurantController");
-const checkResource = require("../middlewares/checkResource");
+} = require("./restaurantController");
+const checkResource = require("../../middlewares/checkResource");
 
 restaurantRouter
   .route("/:id")

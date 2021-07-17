@@ -1,11 +1,11 @@
-const db = require("../database/client");
+const db = require("../../database/client");
 const {
   getOneWithRestaurantsQuery,
   getAllQuery,
   getAllWithRestaurantsQuery,
   updateOneQuery,
   deleteOneQuery,
-} = require("../queries/cityQueries");
+} = require("./cityQueries");
 
 const create = async (req, res, next) => {
   const { name } = req.body;

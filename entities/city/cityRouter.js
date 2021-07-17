@@ -1,6 +1,6 @@
 const express = require("express");
 const cityRouter = express.Router();
-const checkResource = require("../middlewares/checkResource");
+const checkResource = require("../../middlewares/checkResource");
 
 const {
   readOne,
@@ -10,7 +10,7 @@ const {
   create,
   update,
   deleteOne,
-} = require("../controllers/cityController");
+} = require("./cityController");
 
 cityRouter.get("/:id/restaurants", [checkResource, readOneWithRestaurants]);
 cityRouter.get("/restaurants", readAllWithRestaurants);
