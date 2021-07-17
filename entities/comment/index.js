@@ -1,6 +1,6 @@
-const commentController = require("./commentController");
-const commentQueries = require("./commentQueries");
-const commentRouter = require("./commentRouter");
+const commentController = require("./comment.controller");
+const commentQueries = require("./comment.queries");
+const commentRouter = require("./comment.router");
 
 module.exports = {
   commentController,

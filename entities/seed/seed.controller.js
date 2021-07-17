@@ -8,7 +8,7 @@ const {
   createCommentsQuery,
   attachTagToRestaurantQuery,
   nukeQuery,
-} = require("./seedQueries");
+} = require("./seed.queries");
 
 const create = async (req, res, next) => {
   try {

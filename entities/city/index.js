@@ -1,6 +1,6 @@
-const cityController = require("./cityController");
-const cityQueries = require("./cityQueries");
-const cityRouter = require("./cityRouter");
+const cityController = require("./city.controller");
+const cityQueries = require("./city.queries");
+const cityRouter = require("./city.router");
 
 module.exports = {
   cityController,

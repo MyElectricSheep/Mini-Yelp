@@ -10,7 +10,7 @@ const {
   create,
   update,
   deleteOne,
-} = require("./cityController");
+} = require("./city.controller");
 
 cityRouter.get("/:id/restaurants", [checkResource, readOneWithRestaurants]);
 cityRouter.get("/restaurants", readAllWithRestaurants);

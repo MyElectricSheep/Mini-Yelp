@@ -5,7 +5,7 @@ const {
   getAllWithRestaurantsQuery,
   updateOneQuery,
   deleteOneQuery,
-} = require("./cityQueries");
+} = require("./city.queries");
 
 const create = async (req, res, next) => {
   const { name } = req.body;

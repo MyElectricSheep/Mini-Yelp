@@ -8,7 +8,7 @@ const {
   readAll,
   update,
   deleteOne,
-} = require("./tagController");
+} = require("./tag.controller");
 
 tagRouter
   .route("/:id")

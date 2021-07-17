@@ -1,6 +1,6 @@
-const restaurantController = require("./restaurantController");
-const restaurantQueries = require("./restaurantQueries");
-const restaurantRouter = require("./restaurantRouter");
+const restaurantController = require("./restaurant.controller");
+const restaurantQueries = require("./restaurant.queries");
+const restaurantRouter = require("./restaurant.router");
 
 module.exports = {
   restaurantController,

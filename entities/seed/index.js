@@ -1,6 +1,6 @@
-const seedController = require("./seedController");
-const seedQueries = require("./seedQueries");
-const seedRouter = require("./seedRouter");
+const seedController = require("./seed.controller");
+const seedQueries = require("./seed.queries");
+const seedRouter = require("./seed.router");
 
 module.exports = {
   seedController,

@@ -3,7 +3,7 @@ const {
   createTagQuery,
   getAllTagsQuery,
   getRestaurantsLinkedToATagQuery,
-} = require("./tagQueries");
+} = require("./tag.queries");
 
 const create = async (req, res, next) => {
   const { name } = req.body;
