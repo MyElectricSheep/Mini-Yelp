@@ -94,4 +94,4 @@ You could search for all restaurants linked to a tag by sending the id of that t
 
 This is not an exhaustive list.  
 
-You're encouraged to check the controllers folder and check what you can do with the API! :nerd_face:
+You're encouraged to check the entities folder and check what you can do with the API! :nerd_face:
