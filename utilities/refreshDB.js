@@ -1,10 +1,10 @@
 const cron = require("node-cron");
 const { create, seed, destroy } = require("../entities/seed/seed.controller");
 
-cron.schedule("15 0 * * *", () => {
-  destroy({ cron: true });
-  create({ cron: true });
-  seed({ cron: true });
+cron.schedule("20 0 * * *", async () => {
+  await destroy({ cron: true });
+  await create({ cron: true });
+  await seed({ cron: true });
   console.log("Database refreshed");
 });
 
