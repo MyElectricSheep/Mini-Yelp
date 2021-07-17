@@ -23,13 +23,13 @@ PGPASSWORD=<Your database password>
 PGPORT=5432
 ```
 
-If you choose this option, run `npm run startDev` and try to hit `http://localhost:3000/`  
+If you choose this option, run `npm run dev` and try to hit `http://localhost:3000/`  
 
 You should get `Welcome to Mini-Yelp!` as a reply.
 
 ### 2/ For the production environment: Provision a database on Heroku:  
 
-Deploy the project on Heroku followig this [documentation](https://devcenter.heroku.com/articles/deploying-nodejs)
+Deploy the project on Heroku following this [documentation](https://devcenter.heroku.com/articles/deploying-nodejs)
 
 Create a database hosted on [Heroku Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#provisioning-heroku-postgres) and link it to your project.  
 
