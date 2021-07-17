@@ -13,7 +13,7 @@ const {
 const create = async (req, res, next) => {
   try {
     await db.query(createDatabaseQuery);
-    res.send("Database successfully created");
+    if (!req.cron) res.send("Database successfully created");
   } catch (e) {
     next(e);
   }
@@ -162,16 +162,17 @@ const seed = async (req, res, next) => {
     // ]
 
     // At the end: Return a formatted object containing all deleted/created values to the client
-    res.send({
-      created: [
-        { cities: cityRows },
-        { tags: tagRows },
-        { restaurants: restaurantRows },
-        { comments: commentsRows },
-        { restaurant_tags: restaurantTagsRows },
-      ],
-      deleted: [{ cities: cityDeleteRows }, { tags: tagDeleteRows }],
-    });
+    if (!req.cron)
+      res.send({
+        created: [
+          { cities: cityRows },
+          { tags: tagRows },
+          { restaurants: restaurantRows },
+          { comments: commentsRows },
+          { restaurant_tags: restaurantTagsRows },
+        ],
+        deleted: [{ cities: cityDeleteRows }, { tags: tagDeleteRows }],
+      });
   } catch (e) {
     next(e);
   }
@@ -180,7 +181,7 @@ const seed = async (req, res, next) => {
 const destroy = async (req, res, next) => {
   try {
     await db.query(nukeQuery);
-    res.send("Database successfully wiped clean");
+    if (!req.cron) res.send("Database successfully wiped clean");
   } catch (e) {
     next(e);
   }
