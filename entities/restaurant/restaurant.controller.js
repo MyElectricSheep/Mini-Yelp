@@ -4,7 +4,7 @@ const {
   createOneQuery,
 } = require("./restaurant.queries");
 
-const create = async (req, res, next) => {
+const createOne = async (req, res, next) => {
   const { name, picture, city_id, longitude, latitude } = req.body;
 
   if (!name || !picture || !city_id)
@@ -129,7 +129,7 @@ const readAll = async (req, res, next) => {
   }
 };
 
-const update = async (req, res) => {
+const updateOne = async (req, res) => {
   // To do - Not required in the exercise
   const { id } = req.params;
   res.send("This endpoint will update a specific restaurant", id);
@@ -142,12 +142,12 @@ const deleteOne = async (req, res) => {
 };
 
 module.exports = {
-  create,
+  createOne,
   readRestaurant,
   readComments,
   readTags,
   readOne,
   readAll,
-  update,
+  updateOne,
   deleteOne,
 };

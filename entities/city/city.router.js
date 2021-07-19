@@ -1,27 +1,34 @@
 const express = require("express");
 const cityRouter = express.Router();
 const checkResource = require("../../middlewares/checkResource");
-const { validateNewCity, validateUpdateCity } = require("./city.validators");
+
+const { validateCity } = require("./city.validators");
+const { validateId } = require("../../middlewares/validateId");
 
 const {
   readOne,
   readOneWithRestaurants,
   readAll,
   readAllWithRestaurants,
-  create,
-  update,
+  createOne,
+  updateOne,
   deleteOne,
 } = require("./city.controller");
 
-cityRouter.get("/:id/restaurants", [checkResource, readOneWithRestaurants]);
+cityRouter.get("/:id/restaurants", [
+  validateId,
+  checkResource,
+  readOneWithRestaurants,
+]);
+
 cityRouter.get("/restaurants", readAllWithRestaurants);
 
 cityRouter
   .route("/:id")
-  .get([checkResource, readOne])
-  .put([validateUpdateCity, checkResource, update])
+  .get([validateId, checkResource, readOne])
+  .put([validateCity, checkResource, updateOne])
   .delete([checkResource, deleteOne]);
 
-cityRouter.route("/").get(readAll).post([validateNewCity, create]);
+cityRouter.route("/").get(readAll).post([validateCity, createOne]);
 
 module.exports = cityRouter;

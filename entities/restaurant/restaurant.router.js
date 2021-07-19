@@ -3,19 +3,23 @@ const restaurantRouter = express.Router();
 const {
   readOne,
   readAll,
-  create,
-  update,
+  createOne,
+  updateOne,
   deleteOne,
 } = require("./restaurant.controller");
+
+const { validateRestaurant } = require("./restaurant.validators");
+const { validateId } = require("../../middlewares/validateId");
+
 const checkResource = require("../../middlewares/checkResource");
 
 restaurantRouter
   .route("/:id")
-  .get([checkResource, readOne])
-  .put([checkResource, update])
-  .delete([checkResource, deleteOne]);
+  .get([validateId, checkResource, readOne])
+  .put([validateId, checkResource, updateOne])
+  .delete([validateId, checkResource, deleteOne]);
 
 restaurantRouter.get("/", readAll);
-restaurantRouter.post("/", create);
+restaurantRouter.post("/", [validateRestaurant, createOne]);
 
 module.exports = restaurantRouter;

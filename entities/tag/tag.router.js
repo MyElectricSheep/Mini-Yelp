@@ -2,6 +2,9 @@ const express = require("express");
 const tagRouter = express.Router();
 const checkResource = require("../../middlewares/checkResource");
 
+const { validateTag } = require("./tag.validators");
+const { validateId } = require("../../middlewares/validateId");
+
 const {
   create,
   readOne,
@@ -12,10 +15,10 @@ const {
 
 tagRouter
   .route("/:id")
-  .get([checkResource, readOne])
-  .put([checkResource, update])
-  .delete([checkResource, deleteOne]);
+  .get([validateId, checkResource, readOne])
+  .put([validateId, checkResource, update])
+  .delete([validateId, checkResource, deleteOne]);
 
-tagRouter.route("/").get(readAll).post(create);
+tagRouter.route("/").get(readAll).post([validateTag, create]);
 
 module.exports = tagRouter;

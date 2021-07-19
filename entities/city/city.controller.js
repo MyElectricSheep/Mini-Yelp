@@ -7,7 +7,7 @@ const {
   deleteOneQuery,
 } = require("./city.queries");
 
-const create = async (req, res, next) => {
+const createOne = async (req, res, next) => {
   const { name } = req.body;
   if (!name) res.status(400).send("Please provide a valid city name");
 
@@ -28,10 +28,6 @@ const readOne = (req, res) => {
 
 const readOneWithRestaurants = async (req, res, next) => {
   const { id } = req.params;
-  if (!id)
-    res
-      .status(400)
-      .send("Please provide an id to read the information about a city");
 
   // Option 1: two separate queries:
   // const cityQuery = `
@@ -92,7 +88,7 @@ const readAllWithRestaurants = async (req, res, next) => {
   }
 };
 
-const update = async (req, res, next) => {
+const updateOne = async (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
   if (!name || !id)
@@ -118,11 +114,11 @@ const deleteOne = async (req, res, next) => {
 };
 
 module.exports = {
-  create,
+  createOne,
   readOne,
   readOneWithRestaurants,
   readAll,
   readAllWithRestaurants,
-  update,
+  updateOne,
   deleteOne,
 };
