@@ -1,5 +1,5 @@
 require("dotenv").config();
-require("./utilities/refreshDbCron");
+require("./utilities/dbCronJob");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
