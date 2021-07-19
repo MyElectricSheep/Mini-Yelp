@@ -7,6 +7,4 @@ const rebootDb = async () => {
   console.log("Database refreshed");
 };
 
-rebootDb();
-
 module.exports = { rebootDb };

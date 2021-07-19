@@ -70,10 +70,16 @@ const deleteOneQuery = (id) => ({
   values: [id],
 });
 
+const createOneQuery = (name) => ({
+  text: "INSERT INTO city (name) VALUES ($1) RETURNING *",
+  values: [name],
+});
+
 module.exports = {
   getOneWithRestaurantsQuery,
   getAllQuery,
   getAllWithRestaurantsQuery,
   updateOneQuery,
   deleteOneQuery,
+  createOneQuery,
 };

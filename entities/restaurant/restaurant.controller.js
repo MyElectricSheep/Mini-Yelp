@@ -7,11 +7,6 @@ const {
 const createOne = async (req, res, next) => {
   const { name, picture, city_id, longitude, latitude } = req.body;
 
-  if (!name || !picture || !city_id)
-    return res
-      .status(400)
-      .send("Please provide a name, a picture and a city id");
-
   try {
     const { rows: restaurantRows } = await db.query(
       createOneQuery(name, picture, city_id, longitude, latitude)

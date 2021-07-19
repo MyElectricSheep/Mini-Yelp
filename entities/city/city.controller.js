@@ -5,6 +5,7 @@ const {
   getAllWithRestaurantsQuery,
   updateOneQuery,
   deleteOneQuery,
+  createOneQuery,
 } = require("./city.queries");
 
 const createOne = async (req, res, next) => {
@@ -12,10 +13,7 @@ const createOne = async (req, res, next) => {
   if (!name) res.status(400).send("Please provide a valid city name");
 
   try {
-    const { rows: cityRows } = await db.query(
-      "INSERT INTO city (name) VALUES ($1) RETURNING *",
-      [name]
-    );
+    const { rows: cityRows } = await db.query(createOneQuery(name));
     res.send(cityRows);
   } catch (e) {
     next(e);
