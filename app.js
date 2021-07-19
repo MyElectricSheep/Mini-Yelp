@@ -33,10 +33,12 @@ app.get("/not-found", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Welcome to Mini-Yelp!");
+  res.send(
+    "<h1>Welcome to the Mini-Yelp API 🍝 !</h1><p>The documentation for this API is available <a href='https://documenter.getpostman.com/view/14782056/TzmCgD9r' target='_blank' rel='noopener'>here</a>"
+  );
 });
 
-app.get("*", (req, res, next) => {
+app.get("/*", (req, res, next) => {
   const error = new Error(`${req.ip} tried to access ${req.originalUrl}`);
   error.statusCode = 301;
   next(error);
