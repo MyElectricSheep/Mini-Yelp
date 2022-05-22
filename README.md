@@ -1,5 +1,7 @@
 # Mini Yelp Workshop Correction
 
+- ##### This is the correction of a workshop created for the [WBS Coding School](https://www.wbscodingschool.com/) to make web dev students practice their **Back-end** skills.
+
 #### The [detailled endpoints documentation for this API is available here](https://documenter.getpostman.com/view/14782056/TzmCgD9r)
 #### A [deployed version of the API is located here](https://wbs-mini-yelp.herokuapp.com/)
 
